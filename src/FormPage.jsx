@@ -1,13 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "reactstrap";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
-function FormPage() {
+export default function FormPage(props) {
+  const name = useFormInput("Agata");
+  const email = useFormInput("Nairobi@yopmail.com");
+  const resolution = useWindowResolution();
+  // useDocumentTitle(name.value + " from " + email.value);
+
+  // eslint-disable-next-line no-unused-vars
+  function useDocumentTitle(title) {
+    useEffect(() => {
+      document.title = title;
+    });
+  }
+
+  function useFormInput(initialValue) {
+    const [value, setValue] = useState(initialValue);
+
+    function handleChange(e) {
+      setValue(e.target.value);
+    }
+
+    return {
+      value,
+      onChange: handleChange,
+    };
+  }
+
+  function useWindowResolution() {
+    const [width, setWidth] = useState(window.innerWidth);
+    const [height, setHeight] = useState(window.innerHeight);
+    useEffect(() => {
+      const handleResize = () => {
+        setWidth(window.innerWidth);
+        setHeight(window.innerHeight);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize ", handleResize, true);
+      };
+    }, [width, height]);
+    return {
+      width,
+      height,
+    };
+  }
+
   return (
     <Row>
-      <Col></Col>
       <Col xs="6">
         <Form>
+          <FormGroup>
+            <Label for="exampleName">Name</Label>
+            <Input
+              type="name"
+              name="name"
+              id="exampleName"
+              placeholder="with a placeholder"
+              {...name}
+            />
+          </FormGroup>
           <FormGroup>
             <Label for="exampleEmail">Email</Label>
             <Input
@@ -15,6 +68,7 @@ function FormPage() {
               name="email"
               id="exampleEmail"
               placeholder="with a placeholder"
+              {...email}
             />
           </FormGroup>
           <FormGroup>
@@ -95,8 +149,14 @@ function FormPage() {
           <Button>Submit</Button>
         </Form>
       </Col>
-      <Col></Col>
+      <Col style={{ borderLeft: "solid", marginLeft: "50px" }}>
+        <p>
+          Hello: {name.value}, email: {email.value}
+        </p>
+        <h3>
+          {resolution.width} x {resolution.height}
+        </h3>
+      </Col>
     </Row>
   );
 }
-export default FormPage;
