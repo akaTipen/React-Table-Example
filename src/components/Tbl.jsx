@@ -1,4 +1,4 @@
-import "./css/jquery.dataTables.css";
+import "../css/datatables/jquery.dataTables.css";
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import axios from "axios";

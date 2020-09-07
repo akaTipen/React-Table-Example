@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "reactstrap";
 import { useTable, useSortBy, usePagination } from "react-table";
-import { columns, data } from "./dataSource";
+import { columns, data } from "../source/dataSource";
 
 function Table() {
   const {
